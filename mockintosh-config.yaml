@@ -1,0 +1,21 @@
+# configuration file for mockintosh
+services:
+  - name: mock-app
+    port: 8080
+    endpoints:
+    - path: "/ping"  # ping/pong endpoint for testing
+      response:
+        status: 200
+        body: "pong"
+    - path: "/health"  # pass a kubernetes health check
+      response:
+        status: 200
+        body: "OK"
+    - path: "/metrics" # metrics for prometheus
+      response:
+        status: 200
+        body: "#TYPE mock_dummy gauge\nmock_dummy {{ fake.random_int min=0 max=100 step=5 }}"
+    - path: "/search" # example using query parameter
+      queryString:
+        key: "{{value1}}"
+      response: 'key: {{value1}}'
